@@ -119,7 +119,11 @@ module.exports = (_, options) => {
     devServer: {
       historyApiFallback: true,
       port: 9000,
-      proxy: {},
+      proxy: {
+        '/api/': {
+          target: 'http://localhost:8081/api/',
+        },
+      },
     },
   };
 };
