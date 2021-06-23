@@ -28,12 +28,13 @@ const HomeView = () => {
       fetchLatest();
     }, 3000);
 
-    return clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const fetchLatest = () =>
     getLatest()
-      .then((resp) => resp.json())
       .then((result) => {
         if (result.timestamp != information.timestamp) {
           getUser();
