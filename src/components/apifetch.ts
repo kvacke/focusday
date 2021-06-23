@@ -28,7 +28,7 @@ const ApiFetch = (apiOptions: Options, tryCount: number = 0): Promise<object> =>
     delete fetchOptions.body;
   }
 
-  return fetch(`http://localhost:3000/${options.url}`, fetchOptions)
+  return fetch(`http://localhost:8081/${options.url}`, fetchOptions)
     .then((response) => {
       if (!response.ok && response.status === 401) {
         if (tryCount < RETRIES) {
