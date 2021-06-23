@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { format, fromUnixTime } from 'date-fns';
 import { getLatest } from '../models/screentext';
+import useInterval from '../components/useIntervalHook';
 
 type InformationType = {
   body: string;
@@ -17,31 +18,25 @@ const defaultInformation: InformationType = {
 const HomeView = () => {
   const [user, setUser] = useState(null);
   const [information, setInformation] = useState<InformationType>(defaultInformation);
+  const [oldInformation, setOldInformation] = useState<InformationType>(defaultInformation);
 
-  let interval = null;
+  useInterval(() => {
+    fetchLatest();
+  }, 3000);
 
   useEffect(() => {
     getUser();
     fetchLatest();
-
-    interval = setInterval(() => {
-      fetchLatest();
-    }, 3000);
-
-    return () => {
-      clearInterval(interval);
-    };
   }, []);
 
-  const fetchLatest = () =>
-    getLatest()
-      .then((result) => {
-        if (result.timestamp != information.timestamp) {
-          getUser();
-          setInformation(result);
-        }
-      })
-      .catch((e) => console.log('err', e));
+  const fetchLatest = () => {
+    getLatest().then((res) => {
+      if (res.timestamp != information.timestamp) {
+        setInformation(res);
+        getUser();
+      }
+    });
+  };
 
   const getUser = () => {
     fetch('https://randomuser.me/api/?inc=picture,name')
