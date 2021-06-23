@@ -18,12 +18,17 @@ const HomeView = () => {
   const [user, setUser] = useState(null);
   const [information, setInformation] = useState<InformationType>(defaultInformation);
 
+  let interval = null;
+
   useEffect(() => {
     getUser();
     fetchLatest();
-    setInterval(() => {
+
+    interval = setInterval(() => {
       fetchLatest();
-    }, 60000);
+    }, 3000);
+
+    return clearInterval(interval);
   }, []);
 
   const fetchLatest = () =>

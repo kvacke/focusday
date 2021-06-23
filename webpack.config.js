@@ -121,7 +121,7 @@ module.exports = (_, options) => {
       port: 9000,
       proxy: {
         '/api/': {
-          target: 'http://localhost:8081/api/',
+          target: 'http://localhost:8081',
         },
       },
     },
