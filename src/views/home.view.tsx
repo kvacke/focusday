@@ -22,23 +22,26 @@ const HomeView = () => {
     getUser();
     fetchLatest();
     setInterval(() => {
-      getUser();
       fetchLatest();
     }, 12000);
   }, []);
 
   const fetchLatest = () =>
     getLatest()
-      .then((resp) => {
-        console.log('resp', resp);
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result.timestamp != information.timestamp) {
+          getUser();
+          setInformation(result);
+        }
       })
       .catch((e) => console.log('err', e));
 
   const getUser = () => {
     fetch('https://randomuser.me/api/?inc=picture,name')
       .then((resp) => resp.json())
-      .then((res) => {
-        const newUser = res.results[0];
+      .then((result) => {
+        const newUser = result.results[0];
         setUser(newUser);
       });
   };
