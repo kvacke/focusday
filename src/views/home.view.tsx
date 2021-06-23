@@ -3,14 +3,14 @@ import { format, fromUnixTime } from 'date-fns';
 import { getLatest } from '../models/screentext';
 
 type InformationType = {
-  message: string;
-  name: string;
+  body: string;
+  senderName: string;
   timestamp: string;
 };
 
 const defaultInformation: InformationType = {
-  message: 'Some message',
-  name: 'John Smith',
+  body: 'Some message',
+  senderName: 'John Smith',
   timestamp: '1624440170',
 };
 
@@ -23,7 +23,7 @@ const HomeView = () => {
     fetchLatest();
     setInterval(() => {
       fetchLatest();
-    }, 12000);
+    }, 60000);
   }, []);
 
   const fetchLatest = () =>
@@ -54,7 +54,7 @@ const HomeView = () => {
     <div className="message-view">
       <div>
         <div className="profile-picture" style={{ backgroundImage: `url('${user.picture.large}')` }} />
-        <div className="message">{information.message}</div>
+        <div className="message">{information.body}</div>
         <div className="name">{`${user.name.first} ${user.name.last}`}</div>
       </div>
     </div>
